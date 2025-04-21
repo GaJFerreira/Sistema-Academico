@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "TelaInicial",
+            "request": "launch",
+            "mainClass": "com.cadastroaluno.Telas.teste.TelaInicial",
+            "projectName": "ferramentasvisuais"
+        },
+        {
+            "type": "java",
+            "name": "CadastroAlunoApplication",
+            "request": "launch",
+            "mainClass": "com.cadastroaluno.CadastroAlunoApplication",
+            "projectName": "ferramentasvisuais"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-App<ferramentasvisuais>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.cadastroaluno.App",
+            "projectName": "ferramentasvisuais",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
