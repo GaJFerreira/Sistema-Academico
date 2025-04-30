@@ -15,5 +15,6 @@ public interface AlunoRepository extends JpaRepository<AlunoEntity, Long> {
 
     public AlunoEntity findByMatricula(String matricula);
 
+    public void deleteByMatricula(String matricula);
 
 }

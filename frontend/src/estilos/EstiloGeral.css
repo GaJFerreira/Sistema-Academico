@@ -1,24 +1,114 @@
 body {
   background-image: url("../assets/BG.png");
-  background-size: cover; /* Cobre toda a área da div */
-  background-position: center; /* Centraliza a imagem */
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
-  justify-content: space-between;
-  display: flex;
-  flex-direction: column;
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 
 main {
-  color: aliceblue;
-  padding-bottom: 10px;
-  justify-content: center;
+  color: #f8f9fa;
+  padding: 20px 0;
+  flex: 1;
 }
 
 h1 {
   color: white;
-  border-bottom: 1px solid #555555;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-header {
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.btn-success {
+  background-color: #198754;
+  border-color: #198754;
+}
+
+.btn-success:hover {
+  background-color: #157347;
+  border-color: #146c43;
 }
 
 .btn-info:hover {
   background-color: #2a899e;
+}
+
+.table {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table-dark {
+  background-color: #212529;
+}
+
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Custom container for dark backgrounds */
+.content-container {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* Custom styling for modals */
+.modal-content {
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  background-color: #0d6efd;
+  color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* Custom card styling */
+.custom-card {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.custom-card .card-header {
+  background-color: #0d6efd;
+  color: white;
+  font-weight: bold;
 }

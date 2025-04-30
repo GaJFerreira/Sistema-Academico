@@ -19,10 +19,12 @@ public class GradeController {
     @Autowired
     private GradeService gradeService;
 
-    @Autowired AlunoService alunoService;
+    @Autowired
+    AlunoService alunoService;
 
     @GetMapping
     public List<GradeEntity> listarTodas() {
+
         return gradeService.listarTodas();
     }
 
@@ -33,31 +35,30 @@ public class GradeController {
 
     @PostMapping
     public GradeEntity cadastrar(@RequestBody GradeEntity grade) {
+
         return gradeService.salvar(grade);
     }
 
     @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long id) {
+
         gradeService.deletar(id);
     }
 
     @GetMapping("/aluno/{matricula}")
     public List<GradeEntity> listarPorAluno(@PathVariable String matricula) {
         try {
-            // Busque o aluno pela matrícula
             AlunoEntity aluno = alunoService.findByMatricula(matricula);
-            
-            // Se o aluno não for encontrado, lance um erro 404
+
             if (aluno == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado");
             }
 
-            // Busque as grades associadas a esse aluno
             return gradeService.listarPorAlunoId(aluno.getId());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao buscar grades do aluno", e);
         }
     }
 
-    
+
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Form, Button, Card, Container, Alert } from "react-bootstrap"
+import { Form, Button, Card, Container, Alert, Row, Col } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import { cadastrarAluno } from "../services/alunoService"
 
@@ -35,6 +35,7 @@ function AlunoCadastroPage() {
   const [validated, setValidated] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -46,7 +47,15 @@ function AlunoCadastroPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    const form = e.currentTarget
 
+    if (form.checkValidity() === false) {
+      e.stopPropagation()
+      setValidated(true)
+      return
+    }
+
+    setIsSubmitting(true)
     const matriculaGerada = gerarMatricula()
 
     const aluno = {
@@ -79,85 +88,120 @@ function AlunoCadastroPage() {
         }, 2000)
       })
       .catch((err) => {
-        setError(err.message || "Erro desconhecido")
+        setError(err.message || "Erro desconhecido ao cadastrar aluno. Tente novamente.")
         setSuccess(false)
+      })
+      .finally(() => {
+        setIsSubmitting(false)
       })
   }
 
   return (
-    <Container className="mt-5">
-      <Card className="shadow">
-        <Card.Header className="bg-primary text-white">
-          <h2 className="mb-0">Cadastro de Aluno</h2>
-        </Card.Header>
-        <Card.Body>
-          {success && <Alert variant="success">Cadastro realizado com sucesso! Redirecionando...</Alert>}
+    <Container className="mt-4">
+      <div className="content-container">
+        <h1 className="text-center mb-4">Cadastro de Novo Aluno</h1>
 
-          {error && <Alert variant="danger">{error}</Alert>}
+        <Row className="justify-content-center">
+          <Col md={8} lg={6}>
+            <Card className="shadow custom-card">
+              <Card.Header className="bg-primary text-white text-center py-3">
+                <h2 className="mb-0 fs-4">Formulário de Cadastro</h2>
+              </Card.Header>
+              <Card.Body className="p-4">
+                {success && (
+                  <Alert variant="success" className="d-flex align-items-center">
+                    <div className="me-3">
+                      <i className="bi bi-check-circle-fill fs-4"></i>
+                    </div>
+                    <div>
+                      <strong>Cadastro realizado com sucesso!</strong> Você será redirecionado para sua grade
+                      curricular...
+                    </div>
+                  </Alert>
+                )}
 
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formNome">
-              <Form.Label>Nome Completo</Form.Label>
-              <Form.Control
-                type="text"
-                name="nome"
-                value={formData.nome}
-                onChange={handleChange}
-                placeholder="Digite seu nome completo"
-                required
-              />
-              <Form.Control.Feedback type="invalid">Por favor, informe seu nome completo.</Form.Control.Feedback>
-            </Form.Group>
+                {error && (
+                  <Alert variant="danger" className="d-flex align-items-center">
+                    <div className="me-3">
+                      <i className="bi bi-exclamation-triangle-fill fs-4"></i>
+                    </div>
+                    <div>
+                      <strong>Erro!</strong> {error}
+                    </div>
+                  </Alert>
+                )}
 
-            <Form.Group className="mb-3" controlId="formTelefone">
-              <Form.Label>Telefone</Form.Label>
-              <Form.Control
-                type="tel"
-                name="telefone"
-                value={formData.telefone}
-                onChange={handleChange}
-                placeholder="(00) 00000-0000"
-                required
-              />
-              <Form.Control.Feedback type="invalid">Por favor, informe um telefone válido.</Form.Control.Feedback>
-            </Form.Group>
+                <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                  <Form.Group className="mb-3" controlId="formNome">
+                    <Form.Label>Nome Completo</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="nome"
+                      value={formData.nome}
+                      onChange={handleChange}
+                      placeholder="Digite seu nome completo"
+                      required
+                      className="py-2"
+                    />
+                    <Form.Control.Feedback type="invalid">Por favor, informe seu nome completo.</Form.Control.Feedback>
+                  </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formEmail">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="seu.email@exemplo.com"
-                required
-              />
-              <Form.Control.Feedback type="invalid">Por favor, informe um email válido.</Form.Control.Feedback>
-            </Form.Group>
+                  <Form.Group className="mb-3" controlId="formTelefone">
+                    <Form.Label>Telefone</Form.Label>
+                    <Form.Control
+                      type="tel"
+                      name="telefone"
+                      value={formData.telefone}
+                      onChange={handleChange}
+                      placeholder="(00) 00000-0000"
+                      required
+                      className="py-2"
+                    />
+                    <Form.Control.Feedback type="invalid">Por favor, informe um telefone válido.</Form.Control.Feedback>
+                  </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formCurso">
-              <Form.Label>Curso</Form.Label>
-              <Form.Select name="curso" value={formData.curso} onChange={handleChange} required>
-                <option value="">Selecione um curso</option>
-                <option value="Engenharia de Software">Engenharia de Software</option>
-                <option value="Ciência da Computação">Ciência da Computação</option>
-                <option value="Sistemas de Informação">Sistemas de Informação</option>
-                <option value="Análise e Desenvolvimento de Sistemas">Análise e Desenvolvimento de Sistemas</option>
-              </Form.Select>
-              <Form.Control.Feedback type="invalid">Por favor, selecione um curso.</Form.Control.Feedback>
-            </Form.Group>
+                  <Form.Group className="mb-3" controlId="formEmail">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="seu.email@exemplo.com"
+                      required
+                      className="py-2"
+                    />
+                    <Form.Control.Feedback type="invalid">Por favor, informe um email válido.</Form.Control.Feedback>
+                  </Form.Group>
 
-            <div className="d-flex justify-content-between mt-4">
-              <Button variant="secondary" onClick={() => navigate("/aluno")}>
-                Voltar
-              </Button>
-              <Button variant="primary" type="submit">
-                Cadastrar
-              </Button>
-            </div>
-          </Form>
-        </Card.Body>
-      </Card>
+                  <Form.Group className="mb-4" controlId="formCurso">
+                    <Form.Label>Curso</Form.Label>
+                    <Form.Select name="curso" value={formData.curso} onChange={handleChange} required className="py-2">
+                      <option value="">Selecione um curso</option>
+                      <option value="Engenharia de Software">Engenharia de Software</option>
+                      <option value="Ciência da Computação">Ciência da Computação</option>
+                      <option value="Sistemas de Informação">Sistemas de Informação</option>
+                      <option value="Análise e Desenvolvimento de Sistemas">
+                        Análise e Desenvolvimento de Sistemas
+                      </option>
+                    </Form.Select>
+                    <Form.Control.Feedback type="invalid">Por favor, selecione um curso.</Form.Control.Feedback>
+                  </Form.Group>
+
+                  <div className="d-grid gap-2">
+                    <Button variant="primary" type="submit" size="lg" disabled={isSubmitting} className="py-2">
+                      {isSubmitting ? "Cadastrando..." : "Cadastrar"}
+                    </Button>
+                    <Button variant="outline-secondary" onClick={() => navigate("/aluno")} className="py-2">
+                      Voltar
+                    </Button>
+                  </div>
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </div>
     </Container>
   )
 }

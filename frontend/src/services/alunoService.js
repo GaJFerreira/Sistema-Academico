@@ -27,27 +27,23 @@ export async function login(nome, matricula) {
   }
 }
 
-export async function salvarAluno(id, aluno) {
-  try {
-    const response = await fetch(`http://localhost:8080/api/alunos/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(aluno), // Envia o objeto aluno convertido para JSON
-    })
+// alunoService.js
+export async function salvarAluno(aluno) {
+  const response = await fetch(`/api/alunos/${aluno.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(aluno),
+  });
 
-    if (!response.ok) {
-      throw new Error("Erro ao atualizar o aluno")
-    }
-
-    const updatedAluno = await response.json() // Converte a resposta JSON em objeto
-    return updatedAluno // Retorna o aluno atualizado
-  } catch (error) {
-    console.error("Erro ao atualizar o aluno:", error)
-    return null
+  if (!response.ok) {
+    throw new Error("Erro ao atualizar aluno");
   }
+
+  return await response.json();
 }
+
 
 export async function cadastrarAluno(dados) {
   const response = await fetch(API_URL, {

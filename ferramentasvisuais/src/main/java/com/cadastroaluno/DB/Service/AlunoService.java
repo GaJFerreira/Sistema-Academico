@@ -41,6 +41,10 @@ public class AlunoService {
     public AlunoEntity findByMatricula(String matricula) {
         return alunoRepository.findByMatricula(matricula);
     }
+
+    public void deletarPorMatricula(String matricula) {
+        alunoRepository.deleteByMatricula(matricula);
+    }
     
 
 }
