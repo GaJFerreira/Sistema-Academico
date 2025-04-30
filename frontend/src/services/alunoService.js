@@ -29,7 +29,7 @@ export async function login(nome, matricula) {
 
 // alunoService.js
 export async function salvarAluno(aluno) {
-  const response = await fetch(`/api/alunos/${aluno.id}`, {
+  const response = await fetch(`http://localhost:8080/api/alunos/${aluno.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

@@ -7,7 +7,7 @@ import { buscarGradeMatricula } from "../services/gradeService";
 import { Button, Container, Row, Col, Card, Alert, Badge } from "react-bootstrap";
 import { listarDisciplinas } from "../services/disciplinaService";
 import { listarProfessores } from "../services/ProfessorService";
-import { listarSalas } from "../services/SalaService"; // Serviço para listar salas
+import { listarSalas } from "../services/SalaService";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import { salvarAluno } from "../services/alunoService";
@@ -20,10 +20,10 @@ function AlunoGradePage() {
   const [disciplinas, setDisciplinas] = useState([]);
   const [selectedDisciplina, setSelectedDisciplina] = useState(null);
   const [selectedProfessor, setSelectedProfessor] = useState(null);
-  const [selectedSala, setSelectedSala] = useState(null); // Estado para a sala escolhida
+  const [selectedSala, setSelectedSala] = useState(null);
   const navigate = useNavigate();
   const [professores, setProfessores] = useState([]);
-  const [salas, setSalas] = useState([]); // Estado para as salas
+  const [salas, setSalas] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // Recupera a matrícula do localStorage
@@ -38,10 +38,9 @@ function AlunoGradePage() {
         if (matricula) {
           // Carregar dados do aluno
           const alunoData = await buscAlunoMatricula(matricula);
-          setAluno({
-            ...alunoData,
-            grade: alunoData.grade || [], // Garantir que grades seja um array, mesmo se estiver indefinido
-          });
+          setAluno(alunoData);
+
+          console.log("Grade: ", alunoData.grade);
 
           console.log("!Aluno:" , alunoData);
 
@@ -96,44 +95,39 @@ function AlunoGradePage() {
       setError("Por favor, selecione uma disciplina, um professor e uma sala.");
       return;
     }
-
-    // Criar a nova grade com os dados selecionados
-    const novaGrade = {
-      disciplina: selectedDisciplina.id,
-      professor: selectedProfessor.id,
-      sala: selectedSala.id,
-      status: "Matriculado", // O status pode ser 'Matriculado', 'Aguardando', etc.
-    };
-
-    console.log("nove grade: ", novaGrade)
-
-    // Adicionar a nova grade ao array de grades do aluno
-    const alunoAtualizado = {
-      ...aluno, // Mantém as outras propriedades do aluno
-      grade: aluno.grade ? [...aluno.grade, novaGrade] : [novaGrade], // Se grades estiver indefinido, inicializa como um array com a nova grade
-    };
-
-    console.log("ALUINO:  ", aluno)
   
-    // Enviar o aluno atualizado de volta para o backend
-    salvarAluno(aluno.id, alunoAtualizado)
+    const novaGrade = {
+      disciplina: selectedDisciplina,
+      professor: selectedProfessor,
+      sala: selectedSala,
+      status: "Cursando"
+    };
+  
+    const alunoAtualizado = {
+      ...aluno,
+      grade: aluno.grade ? [...aluno.grade, novaGrade] : [novaGrade],
+    };
+  
+    console.log("Enviando aluno atualizado:", alunoAtualizado);
+  
+    console.log("JSON enviado:", JSON.stringify(alunoAtualizado, null, 2));
+
+    salvarAluno(alunoAtualizado)
       .then((response) => {
         console.log("Aluno atualizado com sucesso:", response);
-
-        // Atualizar a lista de grades localmente
-        setGrades((prevGrades) => [...prevGrades, novaGrade]);
-
-        // Fechar o modal
+        setGrades((prev) => [...prev, novaGrade]);
+        setAluno(alunoAtualizado);
         setShowModal(false);
         setSelectedDisciplina(null);
         setSelectedProfessor(null);
-        setSelectedSala(null); // Limpar seleção de sala
+        setSelectedSala(null);
       })
       .catch((err) => {
         console.error("Erro ao salvar aluno:", err);
         setError("Erro ao salvar aluno.");
       });
   };
+  
 
   const handleHome = () => {
     localStorage.clear();
