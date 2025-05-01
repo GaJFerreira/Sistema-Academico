@@ -102,7 +102,7 @@ function AdministradorPage() {
                     variant="primary"
                     size="lg"
                     className="px-4"
-                    onClick={() => navigate("/administrador/alunos")}
+                    onClick={() => navigate("/administrador/aluno")}
                   >
                     <i className="bi bi-people me-2"></i>
                     Acessar Alunos

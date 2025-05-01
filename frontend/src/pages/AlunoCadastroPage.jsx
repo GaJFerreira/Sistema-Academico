@@ -3,23 +3,8 @@
 import { useState } from "react"
 import { Form, Button, Card, Container, Alert, Row, Col } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
-import { cadastrarAluno } from "../services/alunoService"
+import { cadastrarAluno,gerarMatricula } from "../services/alunoService"
 
-// Função para gerar matrícula única
-function gerarMatricula() {
-  const agora = new Date()
-  const ano = agora.getFullYear()
-  const mes = String(agora.getMonth() + 1).padStart(2, "0")
-  const dia = String(agora.getDate()).padStart(2, "0")
-  const hora = String(agora.getHours()).padStart(2, "0")
-  const minuto = String(agora.getMinutes()).padStart(2, "0")
-  const segundo = String(agora.getSeconds()).padStart(2, "0")
-  const aleatorio = Math.floor(Math.random() * 1000)
-    .toString()
-    .padStart(3, "0")
-
-  return `${ano}${mes}${dia}${hora}${minuto}${segundo}${aleatorio}`
-}
 
 function AlunoCadastroPage() {
   const navigate = useNavigate()
@@ -69,7 +54,6 @@ function AlunoCadastroPage() {
         setSuccess(true)
         setError("")
 
-        // Salvar no localStorage para reutilizar em outras telas
         localStorage.setItem("matricula", aluno.matricula)
         localStorage.setItem("nome", aluno.nome)
 

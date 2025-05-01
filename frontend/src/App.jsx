@@ -22,7 +22,7 @@ function App() {
         <Route path="/administrador" element={<AdnministradorPage />} />
         <Route path="/administrador/professor" element={<ProfessorPage />} />
         <Route path="/administrador/sala" element={<SalaPage />} />
-        <Route path="/administrador/disciplina" element={<DisciplinaPage />} />
+        <Route path="/administrador/disciplina" element={<DisciplinaPage />} />z
       </Routes>
     </Layout>
   )

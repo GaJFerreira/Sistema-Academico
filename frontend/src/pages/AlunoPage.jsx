@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom"
 import { listarAlunos } from "../services/alunoService"
 
 function AlunoPage() {
-  const [alunos, setAlunos] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const navigate = useNavigate()
@@ -77,44 +76,6 @@ function AlunoPage() {
             </Card>
           </Col>
         </Row>
-
-        <div className="bg-light p-4 rounded shadow-sm">
-          <h2 className="text-dark mb-4">Lista de Alunos</h2>
-
-          {error && <Alert variant="danger">{error}</Alert>}
-
-          {loading ? (
-            <div className="text-center py-4">
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Carregando...</span>
-              </div>
-              <p className="mt-2 text-dark">Carregando lista de alunos...</p>
-            </div>
-          ) : alunos.length === 0 ? (
-            <Alert variant="info">Nenhum aluno encontrado no sistema.</Alert>
-          ) : (
-            <div className="table-responsive">
-              <table className="table table-bordered table-striped table-hover">
-                <thead className="table-dark">
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Matrícula</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {alunos.map((aluno) => (
-                    <tr key={aluno.id}>
-                      <td>{aluno.id}</td>
-                      <td>{aluno.nome}</td>
-                      <td>{aluno.matricula}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
 
         <div className="text-center mt-4">
           <Button variant="secondary" size="lg" onClick={() => navigate("/")}>

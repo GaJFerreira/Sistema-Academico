@@ -252,7 +252,7 @@ function AlunoGradePage() {
             <div className="text-center mt-4">
               <Button variant="secondary" size="lg" onClick={() => handleHome()}>
                 <i className="bi bi-house-door me-2"></i>
-                Voltar para Home
+                Sair
               </Button>
             </div>
           </Col>
